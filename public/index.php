@@ -14,6 +14,20 @@ use app\Core\Request;
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+// =================== TAMBAHKAN KODE DEBUG DI BAWAH INI ===================
+//echo "<pre>";
+//echo "<b>DEBUGGING INFO (ATTEMPT 2):</b>\n";
+//echo "--------------------\n";
+//echo "<b>APP_URL from .env:</b> " . ($_ENV['APP_URL'] ?? 'NOT SET') . "\n";
+//echo "<b>Request URI from \$_SERVER:</b> " . ($_SERVER['REQUEST_URI'] ?? 'NOT SET') . "\n";
+
+// Panggil metode uri() untuk mendapatkan URI yang diproses
+//$uri_from_request_class = app\Core\Request::uri();
+//echo "<b>Processed URI from Request class:</b> '" . //$uri_from_request_class . "'\n";
+//echo "--------------------";
+//echo "</pre>";
+//die("--- END OF DEBUG ---");
+// =================== AKHIR DARI KODE DEBUG ===================
 
 // Inisialisasi Router
 $router = new Router();
@@ -26,6 +40,10 @@ $router->get('register', 'AuthController@showRegistrationForm');
 $router->post('register', 'AuthController@register');
 $router->get('logout', 'AuthController@logout');
 $router->get('verify', 'AuthController@verifyEmail');
+
+// Rute untuk Google OAuth
+$router->get('auth/google', 'AuthController@redirectToGoogle');
+$router->get('auth/google/callback', 'AuthController@handleGoogleCallback');
 
 // Middleware untuk proteksi halaman berdasarkan role
 $protectedRoutes = [

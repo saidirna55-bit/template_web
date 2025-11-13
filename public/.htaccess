@@ -1,4 +1,16 @@
+# Menonaktifkan fitur MultiViews untuk menghindari konflik dengan mod_rewrite
+Options -MultiViews
+
+# Mengaktifkan mesin rewrite
 RewriteEngine On
+
+# Menetapkan basis untuk semua path relatif (karena DocumentRoot menunjuk ke public)
+RewriteBase /
+
+# Aturan Front Controller
+# Jika permintaan bukan untuk file yang ada...
 RewriteCond %{REQUEST_FILENAME} !-f
+# Dan jika permintaan bukan untuk direktori yang ada...
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
+# ... alihkan semua permintaan ke index.php
+RewriteRule ^ index.php [L]
